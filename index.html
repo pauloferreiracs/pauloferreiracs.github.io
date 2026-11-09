@@ -7,12 +7,12 @@
 <meta name="description" content="Paulo Ferreira: operações e automação com IA, e tráfego pago e marketing digital. Escolha como ver o portfólio.">
 <link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/base.css?v=6">
-<script src="assets/cor.js?v=6"></script>
+<link rel="stylesheet" href="assets/base.css?v=7">
+<script src="assets/cor.js?v=7"></script>
 <style>
   /* Projeto 7: divisória diagonal (A1), botões cheios (B2), base e animações do Projeto 6 (C1) */
-  @property --xt { syntax: "<percentage>"; inherits: true; initial-value: 54%; }
-  @property --xb { syntax: "<percentage>"; inherits: true; initial-value: 46%; }
+  @property --xt { syntax: "<number>"; inherits: true; initial-value: 54; }
+  @property --xb { syntax: "<number>"; inherits: true; initial-value: 46; }
   @property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 
   /* página inicial cabe inteira na tela: sem rolagem. 100vh é a reserva para navegador antigo sem svh;
@@ -29,20 +29,21 @@
   .top .who:hover .peek { opacity: 1; transform: none; }
 
   /* --xt = onde a divisória toca o topo, --xb = onde toca o rodapé */
-  .split { position: relative; height: 100vh; height: 100svh; height: var(--app-h, 100svh); --xt: 54%; --xb: 46%; transition: --xt .8s cubic-bezier(.2,.8,.2,1), --xb .8s cubic-bezier(.2,.8,.2,1); }
+  .split { position: relative; height: 100vh; height: 100svh; height: var(--app-h, 100svh); --xt: 54; --xb: 46; transition: --xt .8s cubic-bezier(.2,.8,.2,1), --xb .8s cubic-bezier(.2,.8,.2,1); }
   @media (hover: hover) and (min-width: 761px) {
-    .split:has(.ia:hover) { --xt: 62%; --xb: 54%; }
-    .split:has(.tr:hover) { --xt: 46%; --xb: 38%; }
+    .split:has(.ia:hover) { --xt: 62; --xb: 54; }
+    .split:has(.tr:hover) { --xt: 46; --xb: 38; }
     .split:has(.ia:hover) .tr .txt, .split:has(.tr:hover) .ia .txt { opacity: .45; }
   }
 
   .side { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) clamp(36px, 8vh, 80px); isolation: isolate; }
   .side canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
   .side.ia { background: radial-gradient(90% 80% at 20% 25%, color-mix(in srgb, var(--ia-1) 12%, #09090b) 0%, #09090b 62%); --accent-1: var(--ia-1); --accent-2: var(--ia-1);
-    clip-path: polygon(0 0, var(--xt) 0, var(--xb) 100%, 0 100%); animation: inL 1s cubic-bezier(.2,.8,.2,1) both; }
+    clip-path: polygon(0 0, calc(var(--xt) * 1%) 0, calc(var(--xb) * 1%) 100%, 0 100%); will-change: transform; animation: inL 1s cubic-bezier(.2,.8,.2,1) both; }
   .side.tr { background: radial-gradient(90% 80% at 82% 25%, color-mix(in srgb, var(--tr-1) 14%, #0d0b0c) 0%, #0d0b0c 62%); --accent-1: var(--tr-1); --accent-2: var(--tr-1);
-    clip-path: polygon(var(--xt) 0, 100% 0, 100% 100%, var(--xb) 100%); padding-left: calc(var(--xt) + 56px); animation: inR 1s cubic-bezier(.2,.8,.2,1) both; }
-  .side.ia .txt { max-width: calc(var(--xb) - 40px); }
+    clip-path: polygon(calc(var(--xt) * 1%) 0, 100% 0, 100% 100%, calc(var(--xb) * 1%) 100%); padding-left: calc(54% + 56px); will-change: transform; animation: inR 1s cubic-bezier(.2,.8,.2,1) both; }
+  .side.ia .txt { max-width: calc(46% - 40px); }
+  .side.tr .txt { translate: calc((var(--xt) - 54) * 1vw) 0; } /* acompanha a divisória sem recalcular o texto */
   @keyframes inL { from { transform: translateX(-6%); opacity: 0; } }
   @keyframes inR { from { transform: translateX(6%); opacity: 0; } }
   @keyframes fadeDown { from { opacity: 0; transform: translateY(-14px); } }
@@ -82,7 +83,7 @@
   @keyframes bob { 50% { translate: 0 -10px; } }
 
   /* Tráfego: palavra gigante, card de anúncio, blocos */
-  .ribbon { position: absolute; top: 15%; left: var(--xt); z-index: -1; white-space: nowrap; font-family: "Poppins"; font-size: clamp(80px, 11vw, 190px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.09); animation: slide 26s linear infinite; will-change: transform; }
+  .ribbon { position: absolute; top: 15%; left: 54%; translate: calc((var(--xt) - 54) * 1vw) 0; z-index: -1; white-space: nowrap; font-family: "Poppins"; font-size: clamp(80px, 11vw, 190px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.09); animation: slide 26s linear infinite; will-change: transform; }
   @keyframes slide { to { transform: translateX(-50%); } }
   .adcard { position: absolute; right: var(--gutter); top: 88px; width: 170px; border: 1px solid #3a2a31; border-radius: 18px; background: rgba(20,16,18,.85); padding: 10px; box-shadow: 0 30px 70px -25px color-mix(in srgb, var(--tr-1) 60%, transparent); animation: up .9s 1s both, tilt 6s 2s ease-in-out infinite; }
   .adcard .m { height: 120px; border-radius: 12px; position: relative; overflow: hidden; background: linear-gradient(160deg, color-mix(in srgb, var(--tr-1) 22%, #120d0f), #1c1014 60%); }
@@ -103,15 +104,15 @@
   /* divisória diagonal neutra (sem cor), com uma luz branca correndo */
   .divider { position: absolute; inset: 0; z-index: 8; pointer-events: none;
     background: rgba(255,255,255,.28);
-    clip-path: polygon(calc(var(--xt) - 1px) 0, calc(var(--xt) + 1px) 0, calc(var(--xb) + 1px) 100%, calc(var(--xb) - 1px) 100%); }
+    clip-path: polygon(calc(var(--xt) * 1% - 1px) 0, calc(var(--xt) * 1% + 1px) 0, calc(var(--xb) * 1% + 1px) 100%, calc(var(--xb) * 1% - 1px) 100%); }
   .divider::before { content: ""; position: absolute; left: 0; right: 0; height: 22%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.95), transparent); top: 0; will-change: transform; animation: run 3.4s ease-in-out infinite; }
   @keyframes run { from { transform: translateY(-100%); } to { transform: translateY(455%); } }
 
   /* selo "ou" no meio da diagonal e foto no topo dela */
-  .or { position: absolute; top: 50%; left: calc((var(--xt) + var(--xb)) / 2); translate: -50% -50%; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: "Geist Mono"; font-size: 12px; color: #fff; background: #0c0c0f; z-index: 9; pointer-events: none; animation: up .7s 1.4s both; }
+  .or { position: absolute; top: 50%; left: calc((var(--xt) + var(--xb)) / 2 * 1%); translate: -50% -50%; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: "Geist Mono"; font-size: 12px; color: #fff; background: #0c0c0f; z-index: 9; pointer-events: none; animation: up .7s 1.4s both; }
   .or::before, .me .ph::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px; background: conic-gradient(from var(--ang), rgba(255,255,255,.95), rgba(255,255,255,.12) 30%, rgba(255,255,255,.12) 70%, rgba(255,255,255,.95)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: hue 4s linear infinite; }
   @keyframes hue { to { --ang: 360deg; } }
-  .me { position: absolute; top: 14px; left: var(--xt); translate: -50% 0; z-index: 31; pointer-events: none; animation: up .9s .5s both; }
+  .me { position: absolute; top: 14px; left: calc(var(--xt) * 1%); translate: -50% 0; z-index: 31; pointer-events: none; animation: up .9s .5s both; }
   .me .ph { position: relative; width: clamp(84px, 6.6vw, 112px); aspect-ratio: 1; border-radius: 50%; padding: 3px; animation: bob 6s 1.5s ease-in-out infinite; }
   .me .ph::before { padding: 3px; -webkit-mask: none; mask: none; }
   .me .ph::after { content: ""; position: absolute; inset: -18px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.10), transparent 65%); z-index: -1; }
@@ -129,7 +130,7 @@
     .top .who .city { display: none; } .top .btn { padding: 7px 12px; font-size: 12px; }
     .thumb { width: 34px; height: 34px; } .top .who { gap: 10px; } .peek { display: none; }
     .split { display: flex; flex-direction: column; }
-    .side { position: relative; inset: auto; flex: 1 1 0; min-height: 0; clip-path: none !important; justify-content: center; padding: 0 22px; animation: none; }
+    .side { position: relative; inset: auto; flex: 1 1 0; min-height: 0; clip-path: none !important; will-change: auto; justify-content: center; padding: 0 22px; animation: none; }
     .side.ia { padding-top: 54px; }
     .side.tr { padding-left: 22px; border-top: 1px solid #2a2a30; }
     .side.ia .txt { max-width: none; }
@@ -230,7 +231,7 @@
       setH(); window.addEventListener("resize", setH); window.addEventListener("orientationchange", setH);
     }
   </script>
-  <script src="assets/main.js?v=6"></script>
+  <script src="assets/main.js?v=7"></script>
   <script>
     // A2: cada lado alterna entre as 2 cores dele quando o mouse entra (computador)
     // ou quando você arrasta o dedo para o lado em cima dele (celular).
