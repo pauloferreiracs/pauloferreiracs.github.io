@@ -1,0 +1,155 @@
+@font-face { font-family: "Geist"; src: url("fonts/Geist-Regular.woff2") format("woff2"), url("fonts/Geist-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("fonts/Geist-Medium.woff2") format("woff2"), url("fonts/Geist-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("fonts/Geist-SemiBold.woff2") format("woff2"), url("fonts/Geist-SemiBold.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-Medium.woff2") format("woff2"), url("fonts/Poppins-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+
+:root {
+  --ink: #09090b;
+  --ink-2: #111114;
+  --paper: #f4f4f1;
+  --muted: #8b8b94;
+  --line: #24242a;
+  /* lado IA: azul + violeta */
+  --ia-1: #4f6bff;
+  --ia-2: #9b6bff;
+  /* lado tráfego: rosa + laranja */
+  --tr-1: #ff3d7f;
+  --tr-2: #ff7a2f;
+  --accent-1: var(--paper);
+  --accent-2: var(--paper);
+  --gutter: clamp(16px, 5vw, 64px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+::selection { background: var(--accent-1); color: var(--ink); }
+
+.mono { font-family: "Geist Mono", ui-monospace, monospace; letter-spacing: .02em; }
+.muted { color: var(--muted); }
+.wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px var(--gutter);
+  background: linear-gradient(to bottom, rgba(9,9,11,.96), rgba(9,9,11,.6) 70%, rgba(9,9,11,0));
+}
+.logo { font-family: "Poppins"; font-weight: 500; font-size: 18px; letter-spacing: .02em; }
+.logo b { color: var(--accent-1); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 22px; font-size: 13px; }
+.nav-links a.lk { color: var(--muted); transition: color .2s; }
+.nav-links a.lk:hover { color: var(--paper); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; font-size: 14px; font-weight: 500;
+  border: 1px solid var(--line); border-radius: 999px;
+  transition: transform .2s, border-color .2s, background .2s;
+}
+.btn:hover { transform: translateY(-1px); border-color: var(--accent-1); }
+.btn.solid { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); color: #fff; border: 0; }
+.btn svg { width: 16px; height: 16px; }
+@media (max-width: 760px) {
+  .nav-links a.lk { display: none; }
+  .nav .btn { padding: 8px 12px; font-size: 13px; }
+}
+
+/* ---------- seções ---------- */
+section { padding: clamp(72px, 12vw, 140px) 0; position: relative; }
+.kicker { font-family: "Geist Mono"; font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+.kicker::before { content: ""; width: 22px; height: 2px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+h2.title { font-family: "Poppins"; font-weight: 500; font-size: clamp(30px, 5.4vw, 60px); line-height: 1.05; letter-spacing: -.02em; max-width: 18ch; }
+.lead { font-size: clamp(16px, 1.6vw, 19px); color: #c9c9cf; max-width: 60ch; margin-top: 18px; }
+.grad { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* números */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 48px; }
+.stat { background: var(--ink); padding: clamp(22px, 3vw, 36px); container-type: inline-size; min-width: 0; }
+/* o número acompanha a largura da coluna (cqi), então nunca é cortado */
+.stat .n { display: inline-block; max-width: 100%; font-family: "Poppins"; font-weight: 500; font-size: clamp(28px, 19cqi, 64px); line-height: 1.05; letter-spacing: -.03em; white-space: nowrap; }
+.stat .l { margin-top: 12px; color: var(--muted); font-size: 14px; max-width: 24ch; }
+.stats.wide { grid-template-columns: repeat(2, 1fr); }
+.stats.short .n { font-size: clamp(30px, 30cqi, 72px); }
+@media (max-width: 560px) { .stats.wide { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .stats { grid-template-columns: 1fr; } }
+
+/* cases */
+.cases { display: grid; gap: 20px; margin-top: 48px; }
+.case {
+  border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 3.4vw, 40px);
+  background: linear-gradient(180deg, var(--ink-2), var(--ink));
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(18px, 4vw, 56px);
+  transition: border-color .3s;
+}
+.case:hover { border-color: color-mix(in srgb, var(--accent-1) 55%, var(--line)); }
+.case .tag { font-family: "Geist Mono"; font-size: 12px; color: var(--muted); }
+.case h3 { font-family: "Poppins"; font-weight: 500; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.15; margin-top: 10px; }
+.case dl { display: grid; gap: 14px; }
+.case dt { font-family: "Geist Mono"; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+.case dd { color: #d6d6db; font-size: 15px; }
+@media (max-width: 760px) { .case { grid-template-columns: 1fr; } }
+
+/* ferramentas */
+.tools { margin-top: 40px; display: grid; gap: 26px; }
+.tools .grp h4 { font-family: "Geist Mono"; font-weight: 400; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: #dcdce0; }
+
+/* trajetória */
+.timeline { margin-top: 48px; border-left: 1px solid var(--line); }
+.tl { position: relative; padding: 0 0 34px 28px; }
+.tl::before { content: ""; position: absolute; left: -6px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
+.tl .when { font-family: "Geist Mono"; font-size: 12px; color: var(--muted); }
+.tl .what { font-family: "Poppins"; font-weight: 500; font-size: 19px; margin-top: 4px; }
+.tl .how { color: #bdbdc4; font-size: 15px; margin-top: 4px; max-width: 62ch; }
+
+/* contato */
+.cta { text-align: left; }
+.cta .big { font-family: "Poppins"; font-weight: 500; font-size: clamp(36px, 7vw, 92px); line-height: 1; letter-spacing: -.03em; }
+.cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+
+footer { border-top: 1px solid var(--line); padding: 26px 0 40px; font-size: 13px; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+/* revelar ao rolar */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+}
+
+/* ===== Projeto 5: visual arredondado do Projeto 2, com BOTÕES quadrados (pedido do Paulo, 2026-11-09) ===== */
+.btn, .go, .ad-cta, .adcard .c { border-radius: 0 !important; }
+
+/* ===== Projeto 6: menos cor. Preto e branco + UMA cor por lado (IA = azul, Tráfego = rosa).
+   Com a 2ª cor igual à 1ª, todos os degradês viram cor sólida. ===== */
+:root { --ia-2: #4f6bff; --tr-2: #ff3d7f; }
+
+/* ===== Projeto 8: cores variáveis (IA: prata/azul-aço · Tráfego: rosa/âmbar), trocadas por assets/cor.js ===== */
+:root { --ia-1: #e9e6df; --ia-2: #e9e6df; --ia-on: #141113; --tr-1: #ff3d7f; --tr-2: #ff3d7f; --tr-on: #ffffff; }
+.amp, .rule, .go, .btn.solid, .stat .n, .chip, .kicker::before, .tl::before, .side ul li::before { transition: color .6s, background-color .6s, border-color .6s, box-shadow .6s; }
+
+/* ===== Otimização (2026-11-09): o navegador só monta as seções quando elas chegam perto da tela ===== */
+section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+/* texto com degradê: espaço embaixo para o "g", "ç", "p" não serem cortados (sem mudar o layout) */
+.grad { padding-bottom: .16em; margin-bottom: -.16em; }
+
+/* desempenho: animação em loop fora da tela fica pausada */
+.anim-off, .anim-off *, .anim-off::before, .anim-off::after, .anim-off *::before, .anim-off *::after { animation-play-state: paused !important; }
+/* desempenho no celular: sem desfoque no menu fixo (refazia o desfoque a cada quadro ao rolar) */
+@media (hover: none) {
+  .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: linear-gradient(to bottom, rgba(9,9,11,.96), rgba(9,9,11,.6) 70%, rgba(9,9,11,0)); }
+}

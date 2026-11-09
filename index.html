@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paulo Ferreira | Portfólio</title>
+<meta name="description" content="Paulo Ferreira: operações e automação com IA, e tráfego pago e marketing digital. Escolha como ver o portfólio.">
+<link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/base.css?v=6">
+<script src="assets/cor.js?v=6"></script>
+<style>
+  /* Projeto 7: divisória diagonal (A1), botões cheios (B2), base e animações do Projeto 6 (C1) */
+  @property --xt { syntax: "<percentage>"; inherits: true; initial-value: 54%; }
+  @property --xb { syntax: "<percentage>"; inherits: true; initial-value: 46%; }
+  @property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+  /* página inicial cabe inteira na tela: sem rolagem. 100vh é a reserva para navegador antigo sem svh;
+     o script no fim usa a altura real da tela quando o navegador não entende svh */
+  html { height: 100%; overflow: hidden; }
+  body { height: 100vh; height: 100svh; height: var(--app-h, 100svh); overflow: hidden; overscroll-behavior: none; }
+  .top { position: fixed; inset: 0 0 auto 0; z-index: 30; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px var(--gutter); font-size: 13px; animation: fadeDown .8s .2s both; }
+  .top .who { color: #d8d8dd; display: inline-flex; align-items: center; gap: 12px; position: relative; }
+  /* foto do banco (cenário inteiro) no lugar do "PF_"; no mouse aparece uma prévia maior logo abaixo */
+  .thumb { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #0c0c0f, 0 0 0 3px rgba(255,255,255,.55); transition: box-shadow .3s; cursor: zoom-in; }
+  .top .who:hover .thumb { box-shadow: 0 0 0 2px #0c0c0f, 0 0 0 3px rgba(255,255,255,.95); }
+  .peek { position: absolute; left: 0; top: calc(100% + 12px); width: 220px; padding: 6px; border-radius: 16px; background: rgba(14,14,18,.92); border: 1px solid #2a2a30; box-shadow: 0 30px 60px -20px rgba(0,0,0,.85); opacity: 0; transform: translateY(-8px) scale(.96); transform-origin: left top; transition: opacity .3s, transform .35s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+  .peek img { display: block; width: 100%; height: auto; border-radius: 11px; }
+  .top .who:hover .peek { opacity: 1; transform: none; }
+
+  /* --xt = onde a divisória toca o topo, --xb = onde toca o rodapé */
+  .split { position: relative; height: 100vh; height: 100svh; height: var(--app-h, 100svh); --xt: 54%; --xb: 46%; transition: --xt .8s cubic-bezier(.2,.8,.2,1), --xb .8s cubic-bezier(.2,.8,.2,1); }
+  @media (hover: hover) and (min-width: 761px) {
+    .split:has(.ia:hover) { --xt: 62%; --xb: 54%; }
+    .split:has(.tr:hover) { --xt: 46%; --xb: 38%; }
+    .split:has(.ia:hover) .tr .txt, .split:has(.tr:hover) .ia .txt { opacity: .45; }
+  }
+
+  .side { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) clamp(36px, 8vh, 80px); isolation: isolate; }
+  .side canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
+  .side.ia { background: radial-gradient(90% 80% at 20% 25%, color-mix(in srgb, var(--ia-1) 12%, #09090b) 0%, #09090b 62%); --accent-1: var(--ia-1); --accent-2: var(--ia-1);
+    clip-path: polygon(0 0, var(--xt) 0, var(--xb) 100%, 0 100%); animation: inL 1s cubic-bezier(.2,.8,.2,1) both; }
+  .side.tr { background: radial-gradient(90% 80% at 82% 25%, color-mix(in srgb, var(--tr-1) 14%, #0d0b0c) 0%, #0d0b0c 62%); --accent-1: var(--tr-1); --accent-2: var(--tr-1);
+    clip-path: polygon(var(--xt) 0, 100% 0, 100% 100%, var(--xb) 100%); padding-left: calc(var(--xt) + 56px); animation: inR 1s cubic-bezier(.2,.8,.2,1) both; }
+  .side.ia .txt { max-width: calc(var(--xb) - 40px); }
+  @keyframes inL { from { transform: translateX(-6%); opacity: 0; } }
+  @keyframes inR { from { transform: translateX(6%); opacity: 0; } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-14px); } }
+  @keyframes up { from { opacity: 0; transform: translateY(.6em); } to { opacity: 1; transform: none; } }
+
+  .txt { position: relative; transition: opacity .6s; }
+  .side.ia .txt::before { content: ""; position: absolute; inset: -40px -50px; z-index: -1; background: radial-gradient(closest-side at 45% 55%, rgba(9,9,11,.82) 45%, rgba(9,9,11,0) 100%); pointer-events: none; } /* some por inteiro antes da borda: sem risca */
+  .num { font-family: "Geist Mono"; font-size: 12px; color: var(--muted); }
+  .side h1 { font-family: "Poppins"; font-weight: 500; font-size: clamp(38px, 5.4vw, 88px); line-height: .98; letter-spacing: -.03em; margin: 12px 0 0; white-space: nowrap; }
+  .side h1 .amp { display: inline-block; color: var(--accent-1); animation: up .8s 1.1s cubic-bezier(.2,.8,.2,1) both; }
+  .ch { display: inline-block; opacity: 0; animation: up .7s cubic-bezier(.2,.8,.2,1) forwards; }
+  .rule { display: block; width: 120px; height: 2px; margin: 18px 0 16px; background: var(--accent-1); animation: grow .8s 1.2s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes grow { from { width: 0; } }
+  .side p { color: #c4c4cb; max-width: 40ch; font-size: clamp(14px, 1.2vw, 17px); animation: up .8s 1.3s both; }
+  .side ul { list-style: none; margin: 16px 0 24px; display: grid; gap: 6px; font-size: 14px; color: #a9a9b1; }
+  .side ul li { animation: up .6s both; }
+  .side ul li:nth-child(1) { animation-delay: 1.45s; } .side ul li:nth-child(2) { animation-delay: 1.6s; } .side ul li:nth-child(3) { animation-delay: 1.75s; }
+  .side ul li::before { content: "→ "; color: var(--accent-1); }
+
+  /* B2: os dois botões cheios */
+  .go { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; font-size: 15px; font-weight: 600; border: 0; animation: up .7s 1.9s both; transition: transform .2s, filter .2s, background .3s, color .3s; }
+  /* os dois botões começam brancos e ganham a cor do lado quando o mouse entra nele */
+  .ia .go { background: #f2efe9; color: #141113; box-shadow: 0 14px 34px -16px var(--ia-1); }
+  .tr .go { background: #f2efe9; color: #141113; box-shadow: 0 14px 34px -16px var(--tr-1); }
+  /* efeito de mouse só em computador: no celular o toque deixava o hover preso e o filtro cortava a sombra do botão num retângulo */
+  @media (hover: hover) and (pointer: fine) {
+    .side:hover .go { transform: translateY(-2px); filter: brightness(1.08); }
+    .ia:hover .go { background: var(--ia-1); color: var(--ia-on); }
+    .tr:hover .go { background: var(--tr-1); color: var(--tr-on); }
+  }
+
+  /* IA: mini terminal */
+  .mini { position: absolute; left: var(--gutter); top: 88px; width: min(320px, 34vw); border: 1px solid #2e2e33; border-radius: 14px; background: rgba(16,16,19,.78); backdrop-filter: blur(6px); box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--ia-1) 55%, transparent); animation: up .9s .9s both, bob 7s 2s ease-in-out infinite; }
+  .mini .bar { display: flex; gap: 6px; padding: 9px 12px; border-bottom: 1px solid #26262b; }
+  .mini .bar i { width: 8px; height: 8px; border-radius: 50%; background: #3a3a40; } .mini .bar i:first-child { background: var(--ia-1); }
+  .mini .out { padding: 12px 14px 14px; font-size: 12px; line-height: 1.7; color: #e6e4de; white-space: pre-wrap; min-height: 118px; }
+  @keyframes bob { 50% { translate: 0 -10px; } }
+
+  /* Tráfego: palavra gigante, card de anúncio, blocos */
+  .ribbon { position: absolute; top: 15%; left: var(--xt); z-index: -1; white-space: nowrap; font-family: "Poppins"; font-size: clamp(80px, 11vw, 190px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.09); animation: slide 26s linear infinite; will-change: transform; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  .adcard { position: absolute; right: var(--gutter); top: 88px; width: 170px; border: 1px solid #3a2a31; border-radius: 18px; background: rgba(20,16,18,.85); padding: 10px; box-shadow: 0 30px 70px -25px color-mix(in srgb, var(--tr-1) 60%, transparent); animation: up .9s 1s both, tilt 6s 2s ease-in-out infinite; }
+  .adcard .m { height: 120px; border-radius: 12px; position: relative; overflow: hidden; background: linear-gradient(160deg, color-mix(in srgb, var(--tr-1) 22%, #120d0f), #1c1014 60%); }
+  .adcard .m::before { content: ""; position: absolute; inset: -40%; background: conic-gradient(from 0deg, transparent, color-mix(in srgb, var(--tr-1) 40%, transparent), transparent 35%); animation: spin 6s linear infinite; }
+  .adcard .m i { position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; translate: -50% -50%; border-radius: 50%; background: rgba(255,255,255,.9); }
+  .adcard .m i::after { content: ""; position: absolute; left: 13px; top: 10px; border-left: 11px solid #1b1517; border-block: 7px solid transparent; }
+  .adcard .c { margin-top: 8px; text-align: center; font-size: 11px; font-weight: 600; padding: 7px; background: var(--tr-1); }
+  .adcard small { display: block; font-size: 10px; color: #a8a3a6; margin-bottom: 6px; }
+  @keyframes tilt { 50% { transform: rotate(-4deg) translateY(-10px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .blk { position: absolute; border-radius: 6px; background: var(--tr-1); animation: flo 7s ease-in-out infinite; z-index: -1; }
+  .b1 { width: 18px; height: 18px; top: 54%; right: 9%; } .b2 { width: 10px; height: 26px; top: 66%; right: 22%; animation-delay: -2s; rotate: 18deg; }
+  @keyframes flo { 50% { translate: 0 -14px; } }
+  .glow { position: absolute; left: -220px; top: -220px; width: 440px; height: 440px; border-radius: 50%; pointer-events: none; z-index: -1; transform: translate(40%, 40vh); transition: transform .25s ease-out; }
+  .ia .glow { background: radial-gradient(circle, color-mix(in srgb, var(--ia-1) 18%, transparent), transparent 65%); }
+  .tr .glow { background: radial-gradient(circle, color-mix(in srgb, var(--tr-1) 20%, transparent), transparent 65%); }
+
+  /* divisória diagonal neutra (sem cor), com uma luz branca correndo */
+  .divider { position: absolute; inset: 0; z-index: 8; pointer-events: none;
+    background: rgba(255,255,255,.28);
+    clip-path: polygon(calc(var(--xt) - 1px) 0, calc(var(--xt) + 1px) 0, calc(var(--xb) + 1px) 100%, calc(var(--xb) - 1px) 100%); }
+  .divider::before { content: ""; position: absolute; left: 0; right: 0; height: 22%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.95), transparent); top: 0; will-change: transform; animation: run 3.4s ease-in-out infinite; }
+  @keyframes run { from { transform: translateY(-100%); } to { transform: translateY(455%); } }
+
+  /* selo "ou" no meio da diagonal e foto no topo dela */
+  .or { position: absolute; top: 50%; left: calc((var(--xt) + var(--xb)) / 2); translate: -50% -50%; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: "Geist Mono"; font-size: 12px; color: #fff; background: #0c0c0f; z-index: 9; pointer-events: none; animation: up .7s 1.4s both; }
+  .or::before, .me .ph::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px; background: conic-gradient(from var(--ang), rgba(255,255,255,.95), rgba(255,255,255,.12) 30%, rgba(255,255,255,.12) 70%, rgba(255,255,255,.95)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: hue 4s linear infinite; }
+  @keyframes hue { to { --ang: 360deg; } }
+  .me { position: absolute; top: 14px; left: var(--xt); translate: -50% 0; z-index: 31; pointer-events: none; animation: up .9s .5s both; }
+  .me .ph { position: relative; width: clamp(84px, 6.6vw, 112px); aspect-ratio: 1; border-radius: 50%; padding: 3px; animation: bob 6s 1.5s ease-in-out infinite; }
+  .me .ph::before { padding: 3px; -webkit-mask: none; mask: none; }
+  .me .ph::after { content: ""; position: absolute; inset: -18px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.10), transparent 65%); z-index: -1; }
+  .me img { position: relative; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #0c0c0f; display: block; }
+
+  .center-q { position: fixed; left: 50%; bottom: 14px; translate: -50% 0; z-index: 10; font-family: "Geist Mono"; font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; animation: up .7s 2.2s both; }
+  .center-q b { display: inline-block; color: #d8d8dd; animation: nudgeL 1.4s ease-in-out infinite; } .center-q b + b { animation-name: nudgeR; }
+  @keyframes nudgeL { 50% { transform: translateX(-5px); } } @keyframes nudgeR { 50% { transform: translateX(5px); } }
+
+  @media (min-width: 761px) and (max-height: 780px) { .mini, .adcard { display: none; } }
+
+  /* celular: as duas opções cabem na primeira tela, uma em cima da outra */
+  @media (max-width: 760px) {
+    .top { background: rgba(9,9,11,.88); backdrop-filter: blur(8px); border-bottom: 1px solid #1f1f24; padding-block: 10px; }
+    .top .who .city { display: none; } .top .btn { padding: 7px 12px; font-size: 12px; }
+    .thumb { width: 34px; height: 34px; } .top .who { gap: 10px; } .peek { display: none; }
+    .split { display: flex; flex-direction: column; }
+    .side { position: relative; inset: auto; flex: 1 1 0; min-height: 0; clip-path: none !important; justify-content: center; padding: 0 22px; animation: none; }
+    .side.ia { padding-top: 54px; }
+    .side.tr { padding-left: 22px; border-top: 1px solid #2a2a30; }
+    .side.ia .txt { max-width: none; }
+    .side h1 { font-size: clamp(30px, 9vw, 42px); margin-top: 6px; }
+    .side h1 br { display: none; } .side h1 .amp { margin-left: .2em; }
+    .side.tr h1 { font-size: clamp(24px, 7.8vw, 40px); }
+    .rule { margin: 10px 0 10px; width: 56px; }
+    .side p { font-size: 13px; line-height: 1.45; max-width: 34ch; }
+    .side ul { display: none; }
+    .go { margin-top: 12px; padding: 11px 16px; font-size: 14px; }
+    .mini, .adcard, .center-q, .divider, .me { display: none; }
+    .ribbon { top: 10px; left: 0; font-size: 52px; }
+    .side.tr { padding-top: 64px; } /* centralizado abaixo da faixa (igual à IA, que fica abaixo do topo) */
+    .or { top: calc(50% + 27px); left: auto; right: 22px; translate: 0 -50%; width: 44px; height: 44px; font-size: 11px; }
+  }
+  @media (max-width: 760px) and (max-height: 640px) { .ribbon { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .ch { opacity: 1; }
+  }
+  /* Projeto 8: quadradinhos que mostram qual das 2 cores do lado está ativa */
+  .sw { display: inline-flex; gap: 5px; margin-left: 10px; vertical-align: middle; }
+  .sw i { width: 9px; height: 9px; opacity: .3; outline: 1px solid rgba(255,255,255,.25); transition: opacity .4s, transform .4s; }
+  .sw i.on { opacity: 1; transform: scale(1.15); }
+  .side.ia, .side.tr { transition: background .6s; }
+  .sw .lbl { display: none; }
+  /* A1 (celular): os quadradinhos viram um botão pequeno "trocar cor" */
+  @media (hover: none), (max-width: 760px) {
+    .num { display: flex; align-items: center; }
+    .sw { align-items: center; gap: 7px; height: 28px; padding: 0 10px; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.06); border-radius: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .2s; }
+    .sw:active { background: rgba(255,255,255,.16); }
+    .sw i { outline: 0; }
+    .sw .lbl { display: inline; font-family: "Geist Mono"; font-weight: 400; font-size: 11px; letter-spacing: .04em; color: #e6e6ea; }
+  }
+</style>
+</head>
+<body>
+  <header class="top">
+    <span class="who"><img class="thumb" src="assets/img/paulo-cena.jpg" alt="Foto de Paulo Ferreira sentado num banco" width="44" height="44"><span>Paulo Ferreira<span class="city"> · São Paulo</span></span><span class="peek" aria-hidden="true"><img src="assets/img/paulo-cena.jpg" alt="" width="220" height="220"></span></span>
+    <a class="btn" href="https://wa.me/5511947309634" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+      Falar no WhatsApp
+    </a>
+  </header>
+
+  <main class="split" id="split">
+    <a class="side ia" href="ia/">
+      <canvas data-net="#e9e6df,#e9e6df" data-net-var="--ia-1" data-net-magnet aria-hidden="true"></canvas>
+      <span class="glow" aria-hidden="true"></span>
+      <div class="mini" data-term="$ paulo --agentes
+› instagram ..... post ✓
+› finanças ...... relatório ✓
+› app gtec ...... 600+ testes ✓" aria-hidden="true">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <pre class="out mono"></pre>
+      </div>
+      <div class="txt">
+        <span class="num">01 / perfil<span class="sw" data-side="ia" role="button" aria-label="Trocar a cor deste lado"><i style="background:#e9e6df"></i><i style="background:#8fb3d9"></i><b class="lbl">trocar cor</b></span></span>
+        <h1><span data-split="0.35">Automação</span><br><span class="amp">&amp; IA</span></h1>
+        <span class="rule"></span>
+        <p>Operação real transformada em sistema. Construo apps e agentes com IA, definindo as regras e testando cada fluxo.</p>
+        <ul>
+          <li>App de ordens de serviço em produção</li>
+          <li>7 agentes de IA em uso</li>
+          <li>20 a 30 atendimentos coordenados por dia</li>
+        </ul>
+        <span class="btn go">Abrir versão IA →</span>
+      </div>
+    </a>
+
+    <a class="side tr" href="trafego/">
+      <span class="ribbon" aria-hidden="true">Tráfego · Criativos · Funis · Tráfego · Criativos · Funis · </span>
+      <span class="glow" aria-hidden="true"></span>
+      <span class="blk b1"></span><span class="blk b2"></span>
+      <div class="adcard" aria-hidden="true"><small>Patrocinado</small><div class="m"><i></i></div><div class="c">Comprar agora</div></div>
+      <div class="txt">
+        <span class="num">02 / perfil<span class="sw" data-side="tr" role="button" aria-label="Trocar a cor deste lado"><i style="background:#ff3d7f"></i><i style="background:#f2b544"></i><b class="lbl">trocar cor</b></span></span>
+        <h1><span data-split="0.5">Tráfego</span><br><span class="amp">&amp; Marketing</span></h1>
+        <span class="rule"></span>
+        <p>Três anos vendendo online: e-commerce, afiliados, mineração de anúncios, funis e conteúdo com IA.</p>
+        <ul>
+          <li>Loja com 200 a 1.000 pedidos</li>
+          <li>Afiliado na Hotmart e na Kiwify</li>
+          <li>Meta Ads, TikTok Ads e Google Ads</li>
+        </ul>
+        <span class="btn go">Abrir versão Tráfego →</span>
+      </div>
+    </a>
+
+    <span class="divider" aria-hidden="true"></span>
+  </main>
+  <div class="center-q"><b>←</b> Escolha como ver o portfólio <b>→</b></div>
+
+  <script>
+    // navegador sem "svh": usa a altura visível da tela (sem contar o zoom)
+    if (!(window.CSS && CSS.supports("height", "100svh"))) {
+      var setH = function () { document.documentElement.style.setProperty("--app-h", document.documentElement.clientHeight + "px"); };
+      setH(); window.addEventListener("resize", setH); window.addEventListener("orientationchange", setH);
+    }
+  </script>
+  <script src="assets/main.js?v=6"></script>
+  <script>
+    // A2: cada lado alterna entre as 2 cores dele quando o mouse entra (computador)
+    // ou quando você arrasta o dedo para o lado em cima dele (celular).
+    (function () {
+      var cur = { ia: PCOR.get("ia"), tr: PCOR.get("tr") }, swiped = false;
+      function marks() {
+        document.querySelectorAll(".sw").forEach(function (sw) {
+          var k = sw.getAttribute("data-side");
+          sw.querySelectorAll("i").forEach(function (i, n) { i.classList.toggle("on", n === cur[k]); });
+        });
+      }
+      function flip(k) { cur[k] = 1 - cur[k]; PCOR.set(k, cur[k]); marks(); }
+      document.querySelectorAll(".side").forEach(function (side) {
+        var k = side.classList.contains("ia") ? "ia" : "tr", sx = null, sy = null;
+        side.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") flip(k); });
+        // Celular: eventos de toque (não bloqueiam o zoom de pinça). Ignora pinça e arraste com zoom ativo.
+        var multi = false, st = 0;
+        side.addEventListener("touchstart", function (e) {
+          if (e.touches.length > 1) { multi = true; sx = null; return; }
+          multi = false; sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
+        }, { passive: true });
+        side.addEventListener("touchend", function (e) {
+          if (sx === null || multi) { if (!e.touches.length) multi = false; sx = null; return; }
+          var zoom = window.visualViewport ? window.visualViewport.scale : 1;
+          var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+          if (zoom < 1.05 && Date.now() - st < 350 && Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) { swiped = true; flip(k); setTimeout(function () { swiped = false; }, 400); }
+        }, { passive: true });
+        side.addEventListener("touchcancel", function () { sx = null; multi = false; }, { passive: true });
+        side.addEventListener("click", function (e) { if (swiped) { e.preventDefault(); swiped = false; } });
+        // botão "trocar cor": troca a cor e não abre a página
+        var sw = side.querySelector(".sw");
+        if (sw) sw.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); flip(k); });
+      });
+      marks();
+    })();
+  </script>
+</body>
+</html>
