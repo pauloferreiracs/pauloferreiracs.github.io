@@ -3,7 +3,7 @@
   var P = { ia: ["#e9e6df", "#8fb3d9"], tr: ["#ff3d7f", "#f2b544"] };      // IA: prata, azul-aço · Tráfego: rosa, âmbar
   var ON = { ia: ["#141113", "#0f141a"], tr: ["#ffffff", "#141113"] };      // cor do texto em cima da cor do lado
   var root = document.documentElement;
-  function get(k) { try { return +sessionStorage.getItem("p8-" + k) || 0; } catch (e) { return 0; } }
+  function get(k) { try { var v = sessionStorage.getItem("p8-" + k); return v === null ? 1 : +v; } catch (e) { return 1; } } // 1 = azul (IA) e amarelo (Tráfego) ao abrir o site
   function apply(k, i) {
     root.style.setProperty("--" + k + "-1", P[k][i]);
     root.style.setProperty("--" + k + "-2", P[k][i]);
