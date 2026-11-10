@@ -7,8 +7,8 @@
 <meta name="description" content="Paulo Ferreira: operações e automação com IA, e tráfego pago e marketing digital. Escolha como ver o portfólio.">
 <link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/base.css?v=11">
-<script src="assets/cor.js?v=11"></script>
+<link rel="stylesheet" href="assets/base.css?v=12">
+<script src="assets/cor.js?v=12"></script>
 <style>
   /* Projeto 7: divisória diagonal (A1), botões cheios (B2), base e animações do Projeto 6 (C1) */
   @property --xt { syntax: "<number>"; inherits: false; initial-value: 54; }
@@ -32,19 +32,20 @@
   .split { position: relative; height: 100vh; height: 100svh; height: var(--app-h, 100svh); }
   @media (hover: hover) and (min-width: 761px) {
     /* data-h (posto pelo script ao passar o mouse) no lugar do seletor has, que reconferia a página inteira a cada quadro */
-    .split[data-h="ia"] :is(.side, .divider, .ribbon, .side.tr .txt) { --xt: 62; --xb: 54; }
-    .split[data-h="tr"] :is(.side, .divider, .ribbon, .side.tr .txt) { --xt: 46; --xb: 38; }
+    .split[data-h="ia"] .side.ia { clip-path: polygon(0 0, 62% 0, 54% 100%, 0 100%); } .split[data-h="ia"] .side.tr { clip-path: polygon(62% 0, 100% 0, 100% 100%, 54% 100%); } .split[data-h="ia"] .divider { clip-path: polygon(calc(62% - 1px) 0, calc(62% + 1px) 0, calc(54% + 1px) 100%, calc(54% - 1px) 100%); }
+    .split[data-h="ia"] :is(.ribbon, .side.tr .txt) { translate: 8vw 0; }
+    .split[data-h="tr"] .side.ia { clip-path: polygon(0 0, 46% 0, 38% 100%, 0 100%); } .split[data-h="tr"] .side.tr { clip-path: polygon(46% 0, 100% 0, 100% 100%, 38% 100%); } .split[data-h="tr"] .divider { clip-path: polygon(calc(46% - 1px) 0, calc(46% + 1px) 0, calc(38% + 1px) 100%, calc(38% - 1px) 100%); }
+    .split[data-h="tr"] :is(.ribbon, .side.tr .txt) { translate: -8vw 0; }
     .split[data-h="ia"] .tr .txt, .split[data-h="tr"] .ia .txt { opacity: .45; }
   }
 
   .side { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) clamp(36px, 8vh, 80px); isolation: isolate; }
   .side canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
   .side.ia { background: radial-gradient(90% 80% at 20% 25%, color-mix(in srgb, var(--ia-1) 12%, #09090b) 0%, #09090b 62%); --accent-1: var(--ia-1); --accent-2: var(--ia-1);
-    clip-path: polygon(0 0, calc(var(--xt) * 1%) 0, calc(var(--xb) * 1%) 100%, 0 100%); will-change: transform; animation: inL 1s cubic-bezier(.2,.8,.2,1) both; }
+    clip-path: polygon(0 0, 54% 0, 46% 100%, 0 100%); will-change: transform; animation: inL 1s cubic-bezier(.2,.8,.2,1) both; }
   .side.tr { background: radial-gradient(90% 80% at 82% 25%, color-mix(in srgb, var(--tr-1) 14%, #0d0b0c) 0%, #0d0b0c 62%); --accent-1: var(--tr-1); --accent-2: var(--tr-1);
-    clip-path: polygon(calc(var(--xt) * 1%) 0, 100% 0, 100% 100%, calc(var(--xb) * 1%) 100%); padding-left: calc(54% + 56px); will-change: transform; animation: inR 1s cubic-bezier(.2,.8,.2,1) both; }
+    clip-path: polygon(54% 0, 100% 0, 100% 100%, 46% 100%); padding-left: calc(54% + 56px); will-change: transform; animation: inR 1s cubic-bezier(.2,.8,.2,1) both; }
   .side.ia .txt { max-width: calc(46% - 40px); }
-  .side.tr .txt { translate: calc((var(--xt) - 54) * 1vw) 0; } /* acompanha a divisória sem recalcular o texto */
   @keyframes inL { from { transform: translateX(-6%); opacity: 0; } }
   @keyframes inR { from { transform: translateX(6%); opacity: 0; } }
   @keyframes fadeDown { from { opacity: 0; transform: translateY(-14px); } }
@@ -84,7 +85,7 @@
   @keyframes bob { 50% { translate: 0 -10px; } }
 
   /* Tráfego: palavra gigante, card de anúncio, blocos */
-  .ribbon { position: absolute; top: 15%; left: 54%; translate: calc((var(--xt) - 54) * 1vw) 0; z-index: -1; white-space: nowrap; font-family: "Poppins"; font-size: clamp(80px, 11vw, 190px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.09); animation: slide 26s linear infinite; will-change: transform; }
+  .ribbon { position: absolute; top: 15%; left: 54%; z-index: -1; white-space: nowrap; font-family: "Poppins"; font-size: clamp(80px, 11vw, 190px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.09); animation: slide 26s linear infinite; will-change: transform; }
   @keyframes slide { to { transform: translateX(-50%); } }
   .adcard { position: absolute; right: var(--gutter); top: 88px; width: 170px; border: 1px solid #3a2a31; border-radius: 18px; background: rgba(20,16,18,.85); padding: 10px; box-shadow: 0 30px 70px -25px color-mix(in srgb, var(--tr-1) 60%, transparent); animation: up .9s 1s both, tilt 6s 2s ease-in-out infinite; }
   .adcard .m { height: 120px; border-radius: 12px; position: relative; overflow: hidden; background: linear-gradient(160deg, color-mix(in srgb, var(--tr-1) 22%, #120d0f), #1c1014 60%); }
@@ -105,7 +106,7 @@
   /* divisória diagonal neutra (sem cor), com uma luz branca correndo */
   .divider { position: absolute; inset: 0; z-index: 8; pointer-events: none;
     background: rgba(255,255,255,.28);
-    clip-path: polygon(calc(var(--xt) * 1% - 1px) 0, calc(var(--xt) * 1% + 1px) 0, calc(var(--xb) * 1% + 1px) 100%, calc(var(--xb) * 1% - 1px) 100%); }
+    clip-path: polygon(calc(54% - 1px) 0, calc(54% + 1px) 0, calc(46% + 1px) 100%, calc(46% - 1px) 100%); }
   .divider::before { content: ""; position: absolute; left: 0; right: 0; height: 22%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.95), transparent); top: 0; will-change: transform; animation: run 3.4s ease-in-out infinite; }
   @keyframes run { from { transform: translateY(-100%); } to { transform: translateY(455%); } }
 
@@ -156,9 +157,9 @@
   .sw { display: inline-flex; gap: 5px; margin-left: 10px; vertical-align: middle; }
   .sw i { width: 9px; height: 9px; opacity: .3; outline: 1px solid rgba(255,255,255,.25); transition: opacity .4s, transform .4s; }
   .sw i.on { opacity: 1; transform: scale(1.15); }
-  .side.ia, .side.tr { transition: background .6s, --xt .8s cubic-bezier(.2,.8,.2,1), --xb .8s cubic-bezier(.2,.8,.2,1); }
-  .divider, .ribbon { transition: --xt .8s cubic-bezier(.2,.8,.2,1), --xb .8s cubic-bezier(.2,.8,.2,1); }
-  .side.tr .txt { transition: opacity .6s, --xt .8s cubic-bezier(.2,.8,.2,1); }
+  .side.ia, .side.tr { transition: background .6s, clip-path .8s cubic-bezier(.2,.8,.2,1); }
+  .divider { transition: clip-path .8s cubic-bezier(.2,.8,.2,1); } .ribbon { transition: translate .8s cubic-bezier(.2,.8,.2,1); }
+  .side.tr .txt { transition: opacity .6s, translate .8s cubic-bezier(.2,.8,.2,1); }
   .sw .lbl { display: none; }
   /* A1 (celular): os quadradinhos viram um botão pequeno "trocar cor" */
   @media (hover: none), (max-width: 760px) {
@@ -234,7 +235,7 @@
       setH(); window.addEventListener("resize", setH); window.addEventListener("orientationchange", setH);
     }
   </script>
-  <script src="assets/main.js?v=11"></script>
+  <script src="assets/main.js?v=12"></script>
   <script>
     // A2: cada lado alterna entre as 2 cores dele quando o mouse entra (computador)
     // ou quando você arrasta o dedo para o lado em cima dele (celular).
