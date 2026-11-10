@@ -12,4 +12,5 @@
   window.PCOR = { P: P, get: get, apply: apply,
     set: function (k, i) { apply(k, i); try { sessionStorage.setItem("p8-" + k, i); } catch (e) {} window.dispatchEvent(new Event("pcor")); } };
   apply("ia", get("ia")); apply("tr", get("tr"));
+  try { var w = sessionStorage.getItem("p8-wipe"); if (w) { sessionStorage.removeItem("p8-wipe"); root.classList.add("wipe-in-" + w); } } catch (e) {}
 })();

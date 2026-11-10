@@ -152,3 +152,21 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 @media (hover: none) {
   .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: linear-gradient(to bottom, rgba(9,9,11,.96), rgba(9,9,11,.6) 70%, rgba(9,9,11,0)); }
 }
+
+/* cortina ao abrir uma versão (A1): cobre a tela na página inicial e se abre na chegada */
+.wipe { position: fixed; inset: 0; z-index: 100; pointer-events: none; clip-path: polygon(0 0, 0 0, -12% 100%, -12% 100%); }
+/* B3: nome da versão escrito na cortina (na saída aparece; na chegada continua até a cortina sair) */
+.wipe, html.wipe-in-ia body::after, html.wipe-in-tr body::after { display: grid; place-items: center; font-family: "Poppins", sans-serif; font-weight: 500; font-size: clamp(30px, 6vw, 72px); letter-spacing: -.03em; color: #09090b; }
+.wipe .cap { opacity: 0; }
+.wipe.ia .cap, .wipe.tr .cap { animation: capIn .45s .3s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes capIn { from { opacity: 0; transform: translateY(.4em); } to { opacity: 1; transform: none; } }
+.wipe.ia { background: var(--ia-1); animation: wipeL .6s cubic-bezier(.7,0,.2,1) forwards; }
+.wipe.tr { background: var(--tr-1); animation: wipeR .6s cubic-bezier(.7,0,.2,1) forwards; }
+@keyframes wipeL { from { clip-path: polygon(0 0, 0 0, -12% 100%, -12% 100%); } to { clip-path: polygon(0 0, 112% 0, 100% 100%, -12% 100%); } }
+@keyframes wipeR { from { clip-path: polygon(112% 0, 112% 0, 100% 100%, 100% 100%); } to { clip-path: polygon(0 0, 112% 0, 112% 100%, -12% 100%); } }
+html.wipe-in-ia body::after, html.wipe-in-tr body::after { position: fixed; inset: 0; z-index: 100; pointer-events: none; }
+html.wipe-in-ia body::after { content: "Automação & IA"; background: var(--ia-1); animation: outL .6s .1s cubic-bezier(.7,0,.2,1) both; }
+html.wipe-in-tr body::after { content: "Tráfego & Marketing"; background: var(--tr-1); animation: outR .6s .1s cubic-bezier(.7,0,.2,1) both; }
+@keyframes outL { from { clip-path: polygon(0 0, 112% 0, 100% 100%, -12% 100%); } to { clip-path: polygon(112% 0, 112% 0, 100% 100%, 100% 100%); } }
+@keyframes outR { from { clip-path: polygon(0 0, 112% 0, 112% 100%, -12% 100%); } to { clip-path: polygon(0 0, 0 0, -12% 100%, -12% 100%); } }
+@media (prefers-reduced-motion: reduce) { html.wipe-in-ia body::after, html.wipe-in-tr body::after { display: none; } }
