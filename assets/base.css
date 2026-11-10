@@ -175,3 +175,8 @@ html.wipe-in-tr body::after { content: "Tráfego & Marketing"; background: var(-
 html.wipe-in-ia::view-transition-new(root) { animation: wipeL .6s cubic-bezier(.7,0,.2,1) both; }
 html.wipe-in-tr::view-transition-new(root) { animation: wipeR .6s cubic-bezier(.7,0,.2,1) both; }
 html.vt.wipe-in-ia body::after, html.vt.wipe-in-tr body::after { animation-delay: .95s; } /* espera a cortina entrar e o nome ser lido */
+/* celular (lados empilhados): a cortina da IA corre no mesmo sentido da do Tráfego */
+@media (max-width: 760px) {
+  .wipe.ia, html.wipe-in-ia::view-transition-new(root) { animation-name: wipeR; }
+  html.wipe-in-ia body::after { animation-name: outR; }
+}
