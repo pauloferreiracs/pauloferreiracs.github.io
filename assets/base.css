@@ -170,3 +170,8 @@ html.wipe-in-tr body::after { content: "Tráfego & Marketing"; background: var(-
 @keyframes outL { from { clip-path: polygon(0 0, 112% 0, 100% 100%, -12% 100%); } to { clip-path: polygon(112% 0, 112% 0, 100% 100%, 100% 100%); } }
 @keyframes outR { from { clip-path: polygon(0 0, 112% 0, 112% 100%, -12% 100%); } to { clip-path: polygon(0 0, 0 0, -12% 100%, -12% 100%); } }
 @media (prefers-reduced-motion: reduce) { html.wipe-in-ia body::after, html.wipe-in-tr body::after { display: none; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: none; }
+html.wipe-in-ia::view-transition-new(root) { animation: wipeL .6s cubic-bezier(.7,0,.2,1) both; }
+html.wipe-in-tr::view-transition-new(root) { animation: wipeR .6s cubic-bezier(.7,0,.2,1) both; }
+html.vt.wipe-in-ia body::after, html.vt.wipe-in-tr body::after { animation-delay: .95s; } /* espera a cortina entrar e o nome ser lido */

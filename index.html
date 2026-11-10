@@ -7,8 +7,8 @@
 <meta name="description" content="Paulo Ferreira: operações e automação com IA, e tráfego pago e marketing digital. Escolha como ver o portfólio.">
 <link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/base.css?v=13">
-<script src="assets/cor.js?v=13"></script>
+<link rel="stylesheet" href="assets/base.css?v=14">
+<script src="assets/cor.js?v=14"></script>
 <style>
   /* Projeto 7: divisória diagonal (A1), botões cheios (B2), base e animações do Projeto 6 (C1) */
   @property --xt { syntax: "<number>"; inherits: false; initial-value: 54; }
@@ -235,13 +235,13 @@
       setH(); window.addEventListener("resize", setH); window.addEventListener("orientationchange", setH);
     }
   </script>
-  <script src="assets/main.js?v=13"></script>
+  <script src="assets/main.js?v=14"></script>
   <script>
     // A2: cada lado alterna entre as 2 cores dele quando o mouse entra (computador)
     // ou quando você arrasta o dedo para o lado em cima dele (celular).
     (function () {
       var cur = { ia: PCOR.get("ia"), tr: PCOR.get("tr") }, swiped = false, split = document.getElementById("split");
-      var noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches, wipe = document.createElement("span");
+      var noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches, vtNav = "PageRevealEvent" in window, wipe = document.createElement("span");
       wipe.className = "wipe"; wipe.setAttribute("aria-hidden", "true"); wipe.innerHTML = '<span class="cap"></span>'; document.body.appendChild(wipe);
       // ao sair, a página guardada para o Voltar fica sem a cortina (antes ela reaparecia ao voltar no celular)
       window.addEventListener("pagehide", function () { wipe.className = "wipe"; });
@@ -276,8 +276,9 @@
         if (sw) sw.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); flip(k); });
         side.addEventListener("click", function (e) {
           if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || noMotion) return; // nova aba/arraste: comportamento normal
-          e.preventDefault();
           try { sessionStorage.setItem("p8-wipe", k); } catch (er) {}
+          if (vtNav) return; // navegador novo: a cortina entra pela página nova, a inicial nunca fica coberta
+          e.preventDefault();
           wipe.firstChild.textContent = k === "ia" ? "Automação & IA" : "Tráfego & Marketing";
           wipe.className = "wipe " + k;
           setTimeout(function () { location.href = side.href; }, 900); // tempo para ler o nome na cortina

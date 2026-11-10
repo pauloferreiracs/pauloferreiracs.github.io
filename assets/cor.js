@@ -12,5 +12,8 @@
   window.PCOR = { P: P, get: get, apply: apply,
     set: function (k, i) { apply(k, i); try { sessionStorage.setItem("p8-" + k, i); } catch (e) {} window.dispatchEvent(new Event("pcor")); } };
   apply("ia", get("ia")); apply("tr", get("tr"));
-  try { var w = sessionStorage.getItem("p8-wipe"); if (w) { sessionStorage.removeItem("p8-wipe"); root.classList.add("wipe-in-" + w); } } catch (e) {}
+  var w = null;
+  try { w = sessionStorage.getItem("p8-wipe"); if (w) { sessionStorage.removeItem("p8-wipe"); root.classList.add("wipe-in-" + w); } } catch (e) {}
+  // transição entre páginas feita pelo navegador: só quando veio pela cortina (Voltar e outros links ficam normais)
+  window.addEventListener("pagereveal", function (e) { if (!e.viewTransition) return; if (w) root.classList.add("vt"); else e.viewTransition.skipTransition(); });
 })();
