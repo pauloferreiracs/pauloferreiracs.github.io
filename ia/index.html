@@ -30,7 +30,8 @@
   .hero.p2 canvas { opacity: .9; }
   .hero-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: clamp(24px, 4vw, 56px); align-items: end; }
   .hero.p2 h1 { font-size: clamp(36px, 4.7vw, 72px); }
-  .rot { display: inline-block; white-space: nowrap; }
+  .rot { display: inline-block; white-space: nowrap; max-width: 100%; overflow: clip; } /* símbolos da troca não alargam a coluna */
+  .hero-grid > * { min-width: 0; }
   .term { border: 1px solid #2e2e33; border-radius: 16px; background: rgba(16,16,19,.9); box-shadow: 0 30px 80px -30px color-mix(in srgb, var(--ia-1) 45%, transparent); overflow: hidden; margin-bottom: 6px; }
   .term .bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #26262b; font-family: "Geist Mono"; font-size: 11px; color: var(--muted); }
   .term .bar i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a40; }
