@@ -160,8 +160,11 @@
     var PULL = 0.0028, DAMP = 0.955, CORE = 36, SEP = 48, SEP2 = SEP * SEP;
     function readColor() { nc = nv ? (getComputedStyle(document.documentElement).getPropertyValue(nv).trim() || null) : null; }
     function size() {
-      var r = cv.getBoundingClientRect(); w = r.width; h = r.height;
+      var r = cv.getBoundingClientRect(), keep = pts.length && r.width === w;
+      if (keep && r.height === h) return; // nada mudou (no celular a barra do navegador dispara "resize" ao rolar)
+      w = r.width; h = r.height;
       cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (keep) { pts.forEach(function (p) { if (p.y > h) p.y = Math.random() * h; }); draw(); return; } // só a altura mudou: mantém as bolinhas
       var n = Math.round(Math.min(touchDev ? 40 : 90, (w * h) / (touchDev ? 20000 : 16000)));
       pts = [];
       for (var i = 0; i < n; i++) {
