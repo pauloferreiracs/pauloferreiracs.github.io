@@ -309,4 +309,21 @@
     });
     document.querySelectorAll(".hero, .marquee, .split").forEach(function (el) { po.observe(el); });
   }
+
+  // medidor de desempenho: só aparece com ?diag no endereço (para o Paulo medir no aparelho dele)
+  if (/[?&]diag/.test(location.search)) {
+    var box = document.createElement("pre"), ft = [], lastT = performance.now(), gpu = "?";
+    box.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:999;margin:0;padding:8px 10px;background:rgba(0,0,0,.85);color:#fff;font:12px/1.5 monospace;pointer-events:none;white-space:pre";
+    document.body.appendChild(box);
+    try { var gl = document.createElement("canvas").getContext("webgl"), dbg = gl.getExtension("WEBGL_debug_renderer_info"); gpu = gl.getParameter(dbg ? dbg.UNMASKED_RENDERER_WEBGL : gl.RENDERER); } catch (e) {}
+    (function frame(t) {
+      ft.push(t - lastT); lastT = t; if (ft.length > 300) ft.shift();
+      if (ft.length % 15 === 0) {
+        var s = ft.slice(-60), avg = s.reduce(function (a, b) { return a + b; }, 0) / s.length;
+        box.textContent = "quadros/s: " + Math.round(1000 / avg) + "\ntravadas (>50ms) ultimos 5s: " + ft.filter(function (x) { return x > 50; }).length +
+          "\npior quadro: " + Math.round(Math.max.apply(null, ft)) + " ms\nvideo: " + String(gpu).slice(0, 60) + "\ntela: " + innerWidth + "x" + innerHeight + " @" + devicePixelRatio;
+      }
+      requestAnimationFrame(frame);
+    })(lastT);
+  }
 })();
