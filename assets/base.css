@@ -142,7 +142,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .amp, .rule, .go, .btn.solid, .stat .n, .chip, .kicker::before, .tl::before, .side ul li::before { transition: color .6s, background-color .6s, border-color .6s, box-shadow .6s; }
 
 /* ===== Otimização (2026-11-09): o navegador só monta as seções quando elas chegam perto da tela ===== */
-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 
 /* texto com degradê: espaço embaixo para o "g", "ç", "p" não serem cortados (sem mudar o layout) */
 .grad { padding-bottom: .16em; margin-bottom: -.16em; }
